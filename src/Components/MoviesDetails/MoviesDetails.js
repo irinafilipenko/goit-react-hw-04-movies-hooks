@@ -3,19 +3,8 @@ import { NavLink } from 'react-router-dom'
 import s from './MoviesDetallis.module.css'
 
 export default function MoviesDetails({ movie, url }) {
-  // console.log(movie.genres)
   return (
-    // <>
-    //   <h2>{movie.original_title}</h2>
-    //   <img
-    //     src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-    //     alt={movie.original_title}
-    //   />
-    //   <p>{movie.overview}</p>
-    // </>
     <>
-      {' '}
-      {}
       <div className={s.wrapper}>
         <img
           src={
@@ -29,7 +18,7 @@ export default function MoviesDetails({ movie, url }) {
         />
         <div className={s.description}>
           <h2 className={s.title}>
-            {movie.title && movie.original_nam}
+            {movie.title && movie.original_name}
             {movie.title}
             {movie.release_date && (
               <span> ({movie.release_date.slice(0, 4)})</span>

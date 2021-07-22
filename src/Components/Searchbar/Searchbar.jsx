@@ -22,9 +22,7 @@ export const SearchBar = ({ onSearch }) => {
           autoComplete="off"
           autoFocus
           name="movieName"
-          //  value={this.state.pictureName}
           placeholder="Search best movie"
-          //   onChange={this.handleNameChange}
         />
       </form>
     </header>

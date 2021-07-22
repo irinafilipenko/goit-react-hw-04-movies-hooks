@@ -4,6 +4,7 @@ import { Route, useRouteMatch } from 'react-router-dom'
 import { fetchMovieId } from '../Servies/FetchApi'
 import MoviesDetails from '../Components/MoviesDetails/MoviesDetails'
 import { GalleryLoader } from '../Components/Loader/Loader'
+import { onErrorToast } from '../Components/ToastError'
 import s from '../Components/Button/Button.module.css'
 
 const Cast = lazy(() =>
@@ -25,16 +26,13 @@ export default function MovieDetailsPage() {
       try {
         const movie = await fetchMovieId(movieId)
 
-        // if (movies.length === 0) {
-        //   throw new Error()
-        // }
-        // setMovies(movies)
+        if (movie.length === 0) {
+          throw new Error()
+        }
+
         setMovie(movie)
-        // console.log(movie.genres)
-        // setStatus(Status.RESOLVED)
       } catch (error) {
-        // setStatus(Status.REJECTED)
-        // onErrorToast()
+        onErrorToast()
       }
     }
 
@@ -47,10 +45,11 @@ export default function MovieDetailsPage() {
 
   return (
     <>
-      <button type="button" className={s.Button} onClick={onGoBack}>
-        {/* {location?.state?.from?.label ?? 'Back'} */}
-        Back
-      </button>
+      {movie && (
+        <button type="button" className={s.Button} onClick={onGoBack}>
+          Back
+        </button>
+      )}
 
       {movie && <MoviesDetails movie={movie} url={url} location={location} />}
       {movie && (

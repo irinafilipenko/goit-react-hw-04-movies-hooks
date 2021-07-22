@@ -1,6 +1,7 @@
 import { useParams } from 'react-router'
 import { useState, useEffect } from 'react'
 import { fetchMovieReviews } from '../../Servies/FetchApi'
+import { notFoundToast } from '../ToastError'
 import s from './Reviews.module.css'
 
 export default function Reviews() {
@@ -13,15 +14,13 @@ export default function Reviews() {
         const reviews = await fetchMovieReviews(movieId)
         console.log(reviews)
 
-        // if (movies.length === 0) {
-        //   throw new Error()
-        // }
-        // setMovies(movies)
+        if (reviews.length === 0) {
+          throw new Error()
+        }
+
         setReviews(reviews)
-        // setStatus(Status.RESOLVED)
       } catch (error) {
-        // setStatus(Status.REJECTED)
-        // onErrorToast()
+        notFoundToast()
       }
     }
     onFetchMovies(movieId)

@@ -7,7 +7,6 @@ export default function MovieItem({
   id,
   title,
   location,
-
   poster,
   releaseDate,
   name,
@@ -17,7 +16,7 @@ export default function MovieItem({
       <Link
         to={{
           pathname: `/movies/${id}`,
-          // pathname: `${url}movies/${id}`,
+
           state: { from: location },
         }}
       >

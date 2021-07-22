@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { fetchMovieCredits } from '../../Servies/FetchApi'
 import noAvatar from '../../Images/defoultImg.jpg'
 import s from './Cast.module.css'
+import { notFoundToast } from '../ToastError'
 
 export default function Cast() {
   const { movieId } = useParams()
@@ -14,15 +15,13 @@ export default function Cast() {
         const casts = await fetchMovieCredits(movieId)
         console.log(casts)
 
-        // if (movies.length === 0) {
-        //   throw new Error()
-        // }
-        // setMovies(movies)
+        if (casts.length === 0) {
+          throw new Error()
+        }
+
         setCast(casts)
-        // setStatus(Status.RESOLVED)
       } catch (error) {
-        // setStatus(Status.REJECTED)
-        // onErrorToast()
+        notFoundToast()
       }
     }
     onFetchMovies(movieId)
@@ -46,20 +45,5 @@ export default function Cast() {
         </li>
       ))}
     </ul>
-
-    // <ul>
-    //   {cast &&
-    //     cast.map((movie) => (
-    //       <li key={movie.id}>
-    //         <img
-    //           src={`https://image.tmdb.org/t/p/w500${movie.profile_path}`}
-    //           alt={movie.name}
-    //           width="100"
-    //           height="150"
-    //         />
-    //         <p>{movie.name}</p>
-    //       </li>
-    //     ))}
-    // </ul>
   )
 }

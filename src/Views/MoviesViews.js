@@ -4,6 +4,7 @@ import { SearchBar } from '../Components/Searchbar/Searchbar'
 import Button from '../Components/Button/Button'
 import { fetchMoviesSearchQuery } from '../Servies/FetchApi'
 import MovieList from '../Components/MovieList/MovieList'
+import { onErrorToast } from '../Components/ToastError'
 
 export default function MoviesView() {
   const [movieName, setMovieName] = useState(null)
@@ -14,8 +15,8 @@ export default function MoviesView() {
 
   function handleFormSubmit(movieName) {
     if (movieName.trim() === '') {
-      // onErrorToast()
-      alert('Error')
+      onErrorToast()
+
       return
     }
     resetState()
@@ -41,29 +42,28 @@ export default function MoviesView() {
         }
 
         setMovies((state) => [...state, ...movies])
-        // setStatus(Status.RESOLVED)
       } catch (error) {
-        // setStatus(Status.REJECTED)
-        // onErrorToast()
+        onErrorToast()
       }
     }
+
     onFetchMovies()
   }, [movieName, page])
 
-  // useEffect(() => {
-  //   function scrollPageToEnd() {
-  //     setTimeout(() => {
-  //       window.scrollBy({
-  //         top: document.documentElement.scrollHeight,
-  //         behavior: 'smooth',
-  //       })
-  //     }, 1000)
-  //   }
+  useEffect(() => {
+    function scrollPageToEnd() {
+      setTimeout(() => {
+        window.scrollBy({
+          top: document.documentElement.scrollHeight,
+          behavior: 'smooth',
+        })
+      }, 1000)
+    }
 
-  //   if (page > 1) {
-  //     scrollPageToEnd()
-  //   }
-  // }, [movies, page])
+    if (page > 1) {
+      scrollPageToEnd()
+    }
+  }, [movies, page])
 
   function onLoadMoreBtn() {
     setPage((page) => page + 1)

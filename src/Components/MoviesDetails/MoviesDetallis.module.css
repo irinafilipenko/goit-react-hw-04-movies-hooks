@@ -1,5 +1,6 @@
 .wrapper {
-  width: 320px;
+  width: 940px;
+  display: flex;
   margin: 0 auto;
   padding-top: 10px;
   margin-bottom: 16px;
@@ -16,17 +17,7 @@
 
 .link {
   margin: 10px 10px;
-  /* font-family: 'Bodoni Moda', serif;
-  margin-right: 24px;
-  font-weight: 500;
-  color: black;
-  font-size: 22px; */
 }
-
-/* .activeLink {
-  composes: link;
-  text-decoration: underline;
-} */
 
 .poster {
   max-width: 320px;
@@ -70,20 +61,6 @@
   display: inline-block;
   margin-left: 8px;
   padding: 5px;
-}
-
-@media (min-width: 768px) {
-  .wrapper {
-    width: 767px;
-    display: flex;
-  }
-}
-
-@media (min-width: 940px) {
-  .wrapper {
-    width: 940px;
-    margin: 0 auto;
-  }
 }
 
 .Button {

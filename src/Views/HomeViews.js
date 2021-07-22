@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { fetchMovie } from '../Servies/FetchApi'
+
 import Button from '../Components/Button/Button'
 import MovieList from '../Components/MovieList/MovieList'
+import { onErrorToast } from '../Components/ToastError'
 
 export default function HomeView() {
   const [movies, setMovies] = useState([])
@@ -14,16 +16,13 @@ export default function HomeView() {
     async function onFetchMovies() {
       try {
         const movies = await fetchMovie(page)
+        // if (movies.length === 0) {
+        //   throw new Error()
+        // }
 
-        if (movies.length === 0) {
-          throw new Error()
-        }
-        // setMovies(movies)
         setMovies((state) => [...state, ...movies])
-        // setStatus(Status.RESOLVED)
       } catch (error) {
-        // setStatus(Status.REJECTED)
-        // onErrorToast()
+        onErrorToast()
       }
     }
     onFetchMovies()
@@ -37,7 +36,8 @@ export default function HomeView() {
 
   return (
     <div>
-      <p>Wellcomme</p>
+      <h2>Trending today</h2>
+
       {movies && <MovieList movies={movies} location={location} />}
 
       {showImageList && (

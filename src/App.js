@@ -1,5 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Switch, Route } from 'react-router'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import './App.css'
 import AppBar from './Components/AppBar/AppBar'
 import Container from './Components/Container/Container'
@@ -21,6 +23,7 @@ const MovieDetailsPage = lazy(() =>
 function App() {
   return (
     <Container>
+      <ToastContainer />
       <AppBar />
       <Suspense
         fallback={
@@ -39,9 +42,9 @@ function App() {
           <Route path="/movies/:movieId">
             <MovieDetailsPage />
           </Route>
-          {/* <Route>
+          <Route>
             <NotfoundView />
-          </Route> */}
+          </Route>
         </Switch>
       </Suspense>
     </Container>
