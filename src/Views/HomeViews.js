@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react'
-import { Link, useRouteMatch } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { fetchMovie } from '../Servies/FetchApi'
+import Button from '../Components/Button/Button'
+import MovieList from '../Components/MovieList/MovieList'
 
 export default function HomeView() {
   const [movies, setMovies] = useState([])
-  const { url } = useRouteMatch()
+  const [page, setPage] = useState(1)
 
-  // useEffect(() => {
-  //   fetchMovie().then(setMovies)
-  // }, [])
+  const location = useLocation()
 
   useEffect(() => {
     async function onFetchMovies() {
       try {
-        const movies = await fetchMovie()
+        const movies = await fetchMovie(page)
 
         if (movies.length === 0) {
           throw new Error()
@@ -27,19 +27,22 @@ export default function HomeView() {
       }
     }
     onFetchMovies()
-  }, [])
+  }, [page])
+
+  function onLoadMoreBtn() {
+    setPage((page) => page + 1)
+  }
+
+  const showImageList = movies.length > 0
 
   return (
     <div>
       <p>Wellcomme</p>
-      <ul>
-        {movies &&
-          movies.map((movie) => (
-            <li key={movie.id}>
-              <Link to={`${url}${movie.id}`}>{movie.title}</Link>
-            </li>
-          ))}
-      </ul>
+      {movies && <MovieList movies={movies} location={location} />}
+
+      {showImageList && (
+        <Button onClick={onLoadMoreBtn} aria-label="add contact" />
+      )}
     </div>
   )
 }

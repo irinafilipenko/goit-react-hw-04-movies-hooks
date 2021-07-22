@@ -9,6 +9,7 @@ const Navigation = () => (
     <NavLink to="/movies" className={s.link} activeClassName={s.activeLink}>
       Movies
     </NavLink>
+    <hr />
   </nav>
 )
 
