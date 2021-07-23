@@ -17,7 +17,7 @@ export default function MovieItem({
         to={{
           pathname: `/movies/${id}`,
 
-          state: { from: location },
+          state: { params: location.search },
         }}
       >
         <img

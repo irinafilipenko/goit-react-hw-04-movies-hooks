@@ -1,5 +1,5 @@
 import { useParams, useLocation, useHistory } from 'react-router'
-import { useState, useEffect, lazy, Suspense } from 'react'
+import { useState, useEffect, lazy, Suspense, useRef } from 'react'
 import { Route, useRouteMatch } from 'react-router-dom'
 import { fetchMovieId } from '../Servies/FetchApi'
 import MoviesDetails from '../Components/MoviesDetails/MoviesDetails'
@@ -14,12 +14,34 @@ const Reviews = lazy(() =>
   import('../Components/Reviews/Reviews' /* webpackChunkName: "reviews" */),
 )
 
-export default function MovieDetailsPage() {
-  const history = useHistory()
+const useGoBackToMoviesPage = () => {
+  const routerState = useRef(null)
   const location = useLocation()
+  const history = useHistory()
+
+  useEffect(() => {
+    if (!routerState.current) {
+      routerState.current = location.state
+    }
+  }, [location.state])
+
+  const handleGoBack = () => {
+    const url = routerState.current ? `/?${routerState.current.params}` : '/'
+    history.push(url)
+  }
+
+  return {
+    goBack: handleGoBack,
+  }
+}
+
+export default function MovieDetailsPage() {
+  const location = useLocation()
+  const { url } = useRouteMatch()
+  const { goBack } = useGoBackToMoviesPage()
+
   const [movie, setMovie] = useState([])
   const { movieId } = useParams()
-  const { url } = useRouteMatch()
 
   useEffect(() => {
     async function onFetchMovies() {
@@ -39,14 +61,14 @@ export default function MovieDetailsPage() {
     onFetchMovies()
   }, [movieId])
 
-  const onGoBack = () => {
-    history.push(location?.state?.from ?? '/')
-  }
+  // const goBack = () => {
+  //   history.push(location?.state?.from ?? '/')
+  // }
 
   return (
     <>
       {movie && (
-        <button type="button" className={s.Button} onClick={onGoBack}>
+        <button type="button" className={s.Button} onClick={goBack}>
           Back
         </button>
       )}

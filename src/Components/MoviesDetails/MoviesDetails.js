@@ -13,7 +13,6 @@ export default function MoviesDetails({ movie, url }) {
               : noPosterImg
           }
           alt={movie.title && movie.original_name}
-          width="450px"
           className={s.poster}
         />
         <div className={s.description}>

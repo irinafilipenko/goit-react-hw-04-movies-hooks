@@ -3,8 +3,8 @@ import s from './Searchbar.module.css'
 export const SearchBar = ({ onSearch }) => {
   const handleSearch = (e) => {
     e.preventDefault()
-
-    onSearch(e.target.elements.movieName.value)
+    const movieName = e.target.elements.movieName.value
+    onSearch(movieName)
 
     e.target.elements.movieName.value = ' '
   }

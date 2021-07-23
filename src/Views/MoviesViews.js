@@ -1,30 +1,41 @@
 import { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 import { SearchBar } from '../Components/Searchbar/Searchbar'
 import Button from '../Components/Button/Button'
 import { fetchMoviesSearchQuery } from '../Servies/FetchApi'
 import MovieList from '../Components/MovieList/MovieList'
 import { onErrorToast } from '../Components/ToastError'
+import ScrollPageToEnd from '../Servies/Scroll'
 
 export default function MoviesView() {
-  const [movieName, setMovieName] = useState(null)
+  // const [movieName, setMovieName] = useState(null)
   const [movies, setMovies] = useState([])
-  const [page, setPage] = useState(1)
+  // const [page, setPage] = useState(currentPage)
 
   const location = useLocation()
+  const history = useHistory()
+  // const currentPage = new URLSearchParams(location.search).get('page') ?? 1
+  const movieName = new URLSearchParams(location.search).get('query') ?? ''
+  const [page, setPage] = useState(1)
+  // console.log(currentPage)
 
   function handleFormSubmit(movieName) {
+    history.push({
+      ...location,
+      search: `query=${movieName}`,
+    })
+    // setMovies([])
     if (movieName.trim() === '') {
       onErrorToast()
 
       return
     }
     resetState()
-    setMovieName(movieName)
+    // setMovieName(movieName)
   }
 
   function resetState() {
-    setMovieName(null)
+    // setMovieName(null)
     setPage(1)
     setMovies([])
   }
@@ -51,22 +62,16 @@ export default function MoviesView() {
   }, [movieName, page])
 
   useEffect(() => {
-    function scrollPageToEnd() {
-      setTimeout(() => {
-        window.scrollBy({
-          top: document.documentElement.scrollHeight,
-          behavior: 'smooth',
-        })
-      }, 1000)
-    }
-
     if (page > 1) {
-      scrollPageToEnd()
+      ScrollPageToEnd()
     }
   }, [movies, page])
 
-  function onLoadMoreBtn() {
+  function onLoadMoreBtn(page) {
     setPage((page) => page + 1)
+
+    console.log(page)
+    history.push({ ...location, search: `query=${movieName}` })
   }
 
   const showImageList = movies.length > 0

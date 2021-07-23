@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { fetchMovie } from '../Servies/FetchApi'
-
+import ScrollPageToEnd from '../Servies/Scroll'
 import Button from '../Components/Button/Button'
 import MovieList from '../Components/MovieList/MovieList'
 import { onErrorToast } from '../Components/ToastError'
@@ -27,6 +27,12 @@ export default function HomeView() {
     }
     onFetchMovies()
   }, [page])
+
+  useEffect(() => {
+    if (page > 1) {
+      ScrollPageToEnd()
+    }
+  }, [movies, page])
 
   function onLoadMoreBtn() {
     setPage((page) => page + 1)
