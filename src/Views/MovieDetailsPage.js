@@ -26,8 +26,9 @@ const useGoBackToMoviesPage = () => {
   }, [location.state])
 
   const handleGoBack = () => {
-    const url = routerState.current ? `/?${routerState.current.params}` : '/'
+    const url = routerState.current ? `/${routerState.current.params}` : '/'
     history.push(url)
+    console.log(url)
   }
 
   return {
@@ -36,8 +37,8 @@ const useGoBackToMoviesPage = () => {
 }
 
 export default function MovieDetailsPage() {
-  const location = useLocation()
-  const { url } = useRouteMatch()
+  // const location = useLocation()
+  const { url, path } = useRouteMatch()
   const { goBack } = useGoBackToMoviesPage()
 
   const [movie, setMovie] = useState([])
@@ -73,7 +74,7 @@ export default function MovieDetailsPage() {
         </button>
       )}
 
-      {movie && <MoviesDetails movie={movie} url={url} location={location} />}
+      {movie && <MoviesDetails movie={movie} url={url} />}
       {movie && (
         <Suspense
           fallback={
