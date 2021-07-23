@@ -1,5 +1,5 @@
 import { useParams, useLocation, useHistory } from 'react-router'
-import { useState, useEffect, lazy, Suspense, useRef } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { Route, useRouteMatch } from 'react-router-dom'
 import { fetchMovieId } from '../Servies/FetchApi'
 import MoviesDetails from '../Components/MoviesDetails/MoviesDetails'
@@ -14,33 +14,36 @@ const Reviews = lazy(() =>
   import('../Components/Reviews/Reviews' /* webpackChunkName: "reviews" */),
 )
 
-const useGoBackToMoviesPage = () => {
-  const routerState = useRef(null)
-  const location = useLocation()
-  const history = useHistory()
+// const useGoBackToMoviesPage = () => {
+//   const routerState = useRef(null)
+//   const location = useLocation()
+//   const history = useHistory()
+//   // console.log(location)
+//   useEffect(() => {
+//     if (!routerState.current) {
+//       routerState.current = location.state
+//       console.log(location.state.params)
+//     }
+//   }, [location.state])
 
-  useEffect(() => {
-    if (!routerState.current) {
-      routerState.current = location.state
-    }
-  }, [location.state])
+//   const handleGoBack = () => {
+//     const url = routerState.current ? `/${routerState.current.params}` : '/'
+//     history.push(url)
 
-  const handleGoBack = () => {
-    const url = routerState.current ? `/${routerState.current.params}` : '/'
-    history.push(url)
-    console.log(url)
-  }
+//     console.log(routerState.current)
+//   }
 
-  return {
-    goBack: handleGoBack,
-  }
-}
+//   return {
+//     goBack: handleGoBack,
+//   }
+// }
 
 export default function MovieDetailsPage() {
-  // const location = useLocation()
-  const { url, path } = useRouteMatch()
-  const { goBack } = useGoBackToMoviesPage()
-
+  const history = useHistory()
+  const location = useLocation()
+  const { url } = useRouteMatch()
+  // const { goBack } = useGoBackToMoviesPage()
+  // console.log(url)
   const [movie, setMovie] = useState([])
   const { movieId } = useParams()
 
@@ -62,8 +65,22 @@ export default function MovieDetailsPage() {
     onFetchMovies()
   }, [movieId])
 
+  const goBack = () => {
+    history.push(location?.state?.from ?? '/')
+    // console.log(location.state)
+  }
+
   // const goBack = () => {
-  //   history.push(location?.state?.from ?? '/')
+  //   const { state } = location
+  //   // console.log(state)
+  //   if (state) {
+  //     history.push(location.state.from)
+  //     return
+  //   }
+  //   history.push({
+  //     pathname: '/movies',
+  //   })
+  //   console.log(state)
   // }
 
   return (

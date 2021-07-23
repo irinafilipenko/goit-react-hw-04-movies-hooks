@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+
 import { fetchMovie } from '../Servies/FetchApi'
 import ScrollPageToEnd from '../Servies/Scroll'
 import Button from '../Components/Button/Button'
@@ -9,8 +9,6 @@ import { onErrorToast } from '../Components/ToastError'
 export default function HomeView() {
   const [movies, setMovies] = useState([])
   const [page, setPage] = useState(1)
-
-  const location = useLocation()
 
   useEffect(() => {
     async function onFetchMovies() {
@@ -44,7 +42,7 @@ export default function HomeView() {
     <div>
       <h2>Trending today</h2>
 
-      {movies && <MovieList movies={movies} location={location} />}
+      {movies && <MovieList movies={movies} />}
 
       {showImageList && (
         <Button onClick={onLoadMoreBtn} aria-label="add contact" />

@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types'
+import { useLocation } from 'react-router-dom'
 import MovieItem from '../MovieItem/MovieItem'
 import s from './MovieList.module.css'
 
-export default function MovieList({ movies, location }) {
+export default function MovieList({ movies }) {
+  const location = useLocation()
   return (
     <ul className={s.list}>
       {movies &&

@@ -1,8 +1,12 @@
 import noPosterImg from '../../Images/defoultImg.jpg'
+import PropTypes from 'prop-types'
+import { useLocation } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
 import s from './MoviesDetallis.module.css'
 
 export default function MoviesDetails({ movie, url }) {
+  const location = useLocation()
+  console.log(url)
   return (
     <>
       <div className={s.wrapper}>
@@ -42,7 +46,12 @@ export default function MoviesDetails({ movie, url }) {
       </div>
       <ul className={s.navigation}>
         <li className={s.link}>
-          <NavLink to={`${url}/cast`}>
+          <NavLink
+            to={{
+              pathname: `${url}/cast`,
+              state: { from: location.state ? location.state.from : '/' },
+            }}
+          >
             <button type="button" className={s.Button}>
               Cast
             </button>
@@ -50,7 +59,12 @@ export default function MoviesDetails({ movie, url }) {
         </li>
 
         <li className={s.link}>
-          <NavLink to={`${url}/reviews`}>
+          <NavLink
+            to={{
+              pathname: `${url}/reviews`,
+              state: { from: location.state ? location.state.from : '/' },
+            }}
+          >
             <button type="button" className={s.Button}>
               Reviews
             </button>
@@ -59,4 +73,9 @@ export default function MoviesDetails({ movie, url }) {
       </ul>
     </>
   )
+}
+
+MoviesDetails.propTypes = {
+  movie: PropTypes.object.isRequired,
+  url: PropTypes.string.isRequired,
 }

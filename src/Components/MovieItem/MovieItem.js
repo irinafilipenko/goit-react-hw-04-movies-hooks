@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import noPosterImg from '../../Images/defoultImg.jpg'
 import s from './MovieItem.module.css'
@@ -12,21 +12,15 @@ export default function MovieItem({
   name,
 }) {
   const location = useLocation()
-  const params = useParams()
-  console.log(location)
+
+  // console.log(location)
   return (
     <li className={s.listItem} key={id}>
       <Link
-        // to={{
-        //   pathname: `/movies/${id}`,
-
-        //   state: { from: location },
-        // }}
-
         to={{
           pathname: `/movies/${id}`,
-
-          state: { params: location.search },
+          state: { from: location },
+          // state: { params: location.search },
         }}
       >
         <img
